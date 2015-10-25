@@ -33,8 +33,14 @@ int		btarr_init(t_btarr *btarr,
   if (!_is_power_of_two(nb_leafs))
     return (-1);
   btarr->nb_leafs = nb_leafs;
-  btarr->root = root;
   btarr->node_size = node_size;
+  if (!root)
+    {
+      root = malloc(btarr->node_size * ((btarr->nb_leafs * 2) - 1));
+      if (!root)
+	return (-2);
+    }
+  btarr->root = root;
   return (0);
 }
 
@@ -48,26 +54,9 @@ t_btarr		*btarr_make(size_t node_size, unsigned int nb_leafs, unsigned char *roo
   btarr = malloc(node_size * nb_leafs);
   if (!btarr)
     return (NULL);
-  if (root)
-    {
-      ret = btarr_init(btarr, node_size, nb_leafs, root);
-      if (ret)
-	{
-	  free(btarr);
-	  return (NULL);
-	}
-      return (btarr);
-    }
-  root = malloc(node_size * ((nb_leafs * 2) - 1));
-  if (!root)
-    {
-      free(btarr);
-      return (NULL);
-    }
   ret = btarr_init(btarr, node_size, nb_leafs, root);
   if (ret)
     {
-      free(root);
       free(btarr);
       return (NULL);
     }
