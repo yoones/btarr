@@ -23,7 +23,7 @@ SRCS		=	btarr.c
 
 OBJS		=	$(SRCS:.c=.o)
 
-NAME_TEST	=	test
+NAME_TEST	=	btarr_assert
 SRCS_TEST	=	main.c
 OBJS_TEST	=	$(SRCS_TEST:.c=.o)
 LDFLAGS_TEST	=	-L. -lbtarr -Wl,-rpath=.
@@ -47,7 +47,7 @@ fclean		:	clean
 
 re		:	fclean all
 
-test		:	$(NAME) $(OBJS_TEST)
+$(NAME_TEST)	:	$(NAME) $(OBJS_TEST)
 			gcc -o $(NAME_TEST) $(OBJS_TEST) $(LDFLAGS_TEST)
 
 .PHONY		:	all clean fclean re test
